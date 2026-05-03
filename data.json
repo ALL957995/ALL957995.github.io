@@ -2,29 +2,13 @@
   {
     "title": "电影《星际穿越》",
     "category": "电影",
-    "baidu": { 
-      "link": "https://pan.baidu.com/s/xxxxxx", 
-      "code": "1234",
-      "fullLink": "https://pan.baidu.com/s/xxxxxx?pwd=1234"
-    },
-    "kuake": { 
-      "link": "https://pan.quark.cn/s/yyyyyy", 
-      "code": "abcd",
-      "fullLink": "https://pan.quark.cn/s/yyyyyy?pwd=abcd"
-    }
+    "baidu": { "link": "https://pan.baidu.com/s/xxxx?pwd=1234" },
+    "kuake": { "link": "https://pan.quark.cn/s/yyyy?pwd=abcd" }
   },
   {
     "title": "纪录片《蓝色星球》",
     "category": "动画",
-    "baidu": { 
-      "link": "https://pan.baidu.com/s/zzzzzz", 
-      "code": "",
-      "fullLink": "https://pan.baidu.com/s/zzzzzz"
-    },
-    "kuake": { 
-      "link": "", 
-      "code": "",
-      "fullLink": ""
-    }
+    "baidu": { "link": "https://pan.baidu.com/s/zzzz?pwd=5678" },
+    "kuake": { "link": "" }
   }
 ]
