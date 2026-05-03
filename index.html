@@ -15,7 +15,6 @@
     }
     .container { max-width: 780px; margin: 0 auto; }
     
-    /* 头部 */
     .header {
       text-align: center;
       margin-bottom: 32px;
@@ -47,7 +46,6 @@
     }
     .header .subtitle a:hover { color: #2563eb; }
 
-    /* 分类导航 */
     .category-nav {
       display: flex;
       justify-content: center;
@@ -80,7 +78,6 @@
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
-    /* 搜索框 */
     .search-box {
       position: relative;
       max-width: 440px;
@@ -119,7 +116,6 @@
     .search-box .clear-btn:hover { color: #64748b; background: #f1f5f9; }
     .search-box .clear-btn.visible { display: block; }
 
-    /* 资源卡片 */
     .card {
       background: white;
       border-radius: 18px;
@@ -165,8 +161,6 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      position: relative;
-      overflow: hidden;
     }
     .copy-btn:active { transform: scale(0.96); }
     
@@ -190,24 +184,6 @@
       border-color: #86efac;
     }
 
-    .link-hint {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      transition: color 0.2s;
-      word-break: break-all;
-    }
-    .link-hint:hover { color: #64748b; }
-    .link-hint .external-icon {
-      font-size: 0.7rem;
-      opacity: 0.7;
-    }
-
-    /* 提示 */
     .no-result {
       text-align: center;
       color: #94a3b8;
@@ -217,7 +193,6 @@
     }
     .empty-illustration { font-size: 3rem; margin-bottom: 12px; }
 
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 28px;
@@ -238,7 +213,6 @@
     }
     .toast.show { opacity: 1; }
 
-    /* 回到顶部 */
     .back-to-top {
       position: fixed;
       bottom: 32px;
@@ -263,7 +237,6 @@
     .back-to-top.visible { opacity: 1; visibility: visible; }
     .back-to-top:hover { background: #f8fafc; border-color: #cbd5e1; }
 
-    /* 弹窗 */
     .modal-overlay {
       position: fixed; top:0; left:0; width:100%; height:100%;
       background: rgba(15, 23, 42, 0.5); 
@@ -290,7 +263,6 @@
     }
     .modal-close:hover { background: #e2e8f0; color: #1e293b; }
 
-    /* 骨架屏 */
     .skeleton {
       background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
       background-size: 200% 100%;
@@ -305,7 +277,6 @@
     .skeleton-title { height: 22px; width: 55%; margin-bottom: 18px; }
     .skeleton-btn { height: 42px; width: 100%; }
 
-    /* 响应式 */
     @media (max-width: 500px) {
       .btn-group { flex-direction: column; }
       .copy-btn { min-width: auto; }
@@ -370,23 +341,20 @@
 
     document.getElementById('feedbackLink').href = FEEDBACK_URL;
 
-    // 免责声明弹窗
     const modal = document.getElementById('disclaimerModal');
     document.getElementById('openDisclaimer').addEventListener('click', () => modal.classList.add('show'));
     document.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
 
-    // Toast
     const toast = document.getElementById('toast');
     let toastTimer = null;
     function showToast(text) {
       toast.textContent = text;
       toast.classList.add('show');
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 1200);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
     }
 
-    // 搜索框清空按钮
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
     searchInput.addEventListener('input', () => {
@@ -400,7 +368,6 @@
       searchInput.focus();
     });
 
-    // 回到顶部
     const backToTopBtn = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       backToTopBtn.classList.toggle('visible', window.scrollY > 400);
@@ -409,11 +376,10 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ========== 资源加载与渲染 ==========
     let allResources = [];
     let currentCategory = '全部';
 
-    // 初次加载显示骨架屏
+    // 骨架屏
     function showSkeleton(count = 3) {
       const list = document.getElementById('list');
       list.innerHTML = '';
@@ -442,81 +408,46 @@
       list.innerHTML = '';
       noResult.style.display = resources.length ? 'none' : 'block';
 
+      const iconMap = { '电影': '🎬', '剧集': '📺', '动画': '✨', '游戏': '🎮' };
+
       resources.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
-
-        // 标题图标根据分类变化
-        const iconMap = { '电影': '🎬', '剧集': '📺', '动画': '✨', '游戏': '🎮' };
         const icon = iconMap[item.category] || '📦';
-
         card.innerHTML = `<div class="card-title"><span class="icon">${icon}</span>${item.title}</div>`;
 
         const btnGroup = document.createElement('div');
         btnGroup.className = 'btn-group';
 
-        // 百度网盘按钮
+        // 百度网盘
         if (item.baidu && item.baidu.link) {
           const baiduBtn = document.createElement('button');
           baiduBtn.className = 'copy-btn baidu';
           baiduBtn.innerHTML = '☁️ 复制百度网盘';
-          const baiduCopyText = `链接：${item.baidu.link}${item.baidu.code ? ' 提取码：' + item.baidu.code : ''}`;
           baiduBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            navigator.clipboard.writeText(baiduCopyText).then(() => showToast('✅ 百度网盘链接已复制'));
+            navigator.clipboard.writeText(item.baidu.link).then(() => {
+              showToast('✅ 已复制百度网盘链接，打开百度网盘App即可保存');
+            });
           });
           btnGroup.appendChild(baiduBtn);
-
-          // 可点击的链接提示
-          if (item.baidu.fullLink) {
-            const linkHint = document.createElement('div');
-            linkHint.className = 'link-hint';
-            linkHint.innerHTML = `🔗 直接打开 <span class="external-icon">↗</span>`;
-            linkHint.title = item.baidu.fullLink;
-            linkHint.addEventListener('click', (e) => {
-              e.stopPropagation();
-              window.open(item.baidu.fullLink, '_blank');
-            });
-            card.appendChild(btnGroup);
-            card.appendChild(linkHint);
-          }
         }
 
-        // 夸克网盘按钮
+        // 夸克网盘
         if (item.kuake && item.kuake.link) {
           const kuakeBtn = document.createElement('button');
           kuakeBtn.className = 'copy-btn kuake';
           kuakeBtn.innerHTML = '☁️ 复制夸克网盘';
-          const kuakeCopyText = `链接：${item.kuake.link}${item.kuake.code ? ' 提取码：' + item.kuake.code : ''}`;
           kuakeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            navigator.clipboard.writeText(kuakeCopyText).then(() => showToast('✅ 夸克网盘链接已复制'));
+            navigator.clipboard.writeText(item.kuake.link).then(() => {
+              showToast('✅ 已复制夸克网盘链接，打开夸克App即可保存');
+            });
           });
           btnGroup.appendChild(kuakeBtn);
-
-          if (item.kuake.fullLink) {
-            const linkHint = document.createElement('div');
-            linkHint.className = 'link-hint';
-            linkHint.innerHTML = `🔗 直接打开 <span class="external-icon">↗</span>`;
-            linkHint.title = item.kuake.fullLink;
-            linkHint.addEventListener('click', (e) => {
-              e.stopPropagation();
-              window.open(item.kuake.fullLink, '_blank');
-            });
-            // 如果前面已经有百度按钮，linkHint会追加在后面
-            if (!card.querySelector('.link-hint')) {
-              card.appendChild(btnGroup);
-              card.appendChild(linkHint);
-            } else {
-              card.appendChild(linkHint);
-            }
-          }
         }
 
-        if (!card.contains(btnGroup)) {
-          card.appendChild(btnGroup);
-        }
-
+        card.appendChild(btnGroup);
         list.appendChild(card);
       });
     }
@@ -533,7 +464,6 @@
       renderList(filtered);
     }
 
-    // 分类切换
     document.querySelectorAll('.category-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
