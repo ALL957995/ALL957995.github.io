@@ -1,0 +1,30 @@
+[
+  {
+    "title": "电影《星际穿越》",
+    "link": "https://pan.baidu.com/s/1AbCdEfGhIjKlMn",
+    "code": "1234",
+    "platform": "百度网盘",
+    "category": "电影"
+  },
+  {
+    "title": "剧集《权力的游戏》",
+    "link": "https://pan.baidu.com/s/1BcDeFgHiJkLmNo",
+    "code": "5678",
+    "platform": "百度网盘",
+    "category": "剧集"
+  },
+  {
+    "title": "动画《千与千寻》",
+    "link": "https://www.aliyundrive.com/s/yyyyyy",
+    "code": "",
+    "platform": "阿里云盘",
+    "category": "动画"
+  },
+  {
+    "title": "游戏《艾尔登法环》",
+    "link": "https://pan.quark.cn/s/zzzzzz",
+    "code": "abcd",
+    "platform": "夸克网盘",
+    "category": "游戏"
+  }
+]
