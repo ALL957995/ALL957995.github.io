@@ -10,93 +10,42 @@
     .container { max-width: 750px; margin: 0 auto; }
     h1 { text-align: center; margin-bottom: 10px; font-size: 32px; }
 
-    /* 顶部链接 */
-    .top-links {
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 14px;
-    }
-    .top-links a {
-      color: #4f46e5;
-      text-decoration: none;
-      margin: 0 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
+    .top-links { text-align: center; margin-bottom: 25px; font-size: 14px; }
+    .top-links a { color: #4f46e5; text-decoration: none; margin: 0 12px; cursor: pointer; font-weight: 500; }
     .top-links a:hover { text-decoration: underline; }
 
-    /* 分类导航 */
-    .category-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 25px;
-    }
-    .category-btn {
-      background: white;
-      border: 2px solid #e0e0e0;
-      padding: 8px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 15px;
-      transition: all 0.3s;
-    }
+    .category-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+    .category-btn { background: white; border: 2px solid #e0e0e0; padding: 8px 20px; border-radius: 30px; cursor: pointer; font-size: 15px; transition: all 0.3s; }
     .category-btn:hover { border-color: #4f46e5; color: #4f46e5; }
-    .category-btn.active {
-      background: #4f46e5;
-      border-color: #4f46e5;
-      color: white;
-    }
+    .category-btn.active { background: #4f46e5; border-color: #4f46e5; color: white; }
 
-    /* 搜索框 */
-    .search-box {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    .search-box input {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px 20px;
-      border: 2px solid #e0e0e0;
-      border-radius: 30px;
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
+    .search-box { display: flex; justify-content: center; margin-bottom: 30px; }
+    .search-box input { width: 100%; max-width: 400px; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 30px; font-size: 16px; outline: none; transition: border-color 0.3s; }
     .search-box input:focus { border-color: #4f46e5; }
 
     .card { background: white; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.05); }
-    .card-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
-    .platform-tag { display: inline-block; background: #eef2ff; color: #4f46e5; padding: 3px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 16px; }
-    .copy-btn { background: #4f46e5; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; transition: background 0.3s; }
+    .card-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .copy-btn { flex: 1; min-width: 140px; background: #4f46e5; color: white; border: none; padding: 12px 16px; border-radius: 8px; font-size: 15px; cursor: pointer; transition: background 0.3s; }
     .copy-btn:hover { background: #4338ca; }
+    .copy-btn.baidu { background: #2563eb; }
+    .copy-btn.baidu:hover { background: #1d4ed8; }
+    .copy-btn.kuake { background: #16a34a; }
+    .copy-btn.kuake:hover { background: #15803d; }
 
     .no-result { text-align: center; color: #999; margin-top: 40px; font-size: 16px; display: none; }
 
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 40px; opacity: 0; transition: opacity 0.3s; z-index: 999; }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 40px; opacity: 0; transition: opacity 0.3s; z-index: 999; white-space: nowrap; }
     .toast.show { opacity: 1; }
 
     /* 弹窗样式 */
-    .modal-overlay {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.5); display: flex;
-      align-items: center; justify-content: center;
-      z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s;
-    }
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s; }
     .modal-overlay.show { visibility: visible; opacity: 1; }
-    .modal-dialog {
-      background: white; border-radius: 14px; padding: 30px 24px; max-width: 600px; width: 90%;
-      max-height: 80vh; overflow-y: auto; position: relative;
-    }
+    .modal-dialog { background: white; border-radius: 14px; padding: 30px 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
     .modal-dialog h2 { margin-bottom: 20px; font-size: 22px; text-align: center; }
     .modal-dialog ol { padding-left: 20px; line-height: 1.8; font-size: 15px; color: #555; }
     .modal-dialog ol li { margin-bottom: 12px; }
-    .modal-close {
-      position: absolute; top: 12px; right: 18px;
-      background: none; border: none; font-size: 24px; cursor: pointer; color: #999;
-    }
+    .modal-close { position: absolute; top: 12px; right: 18px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999; }
     .modal-close:hover { color: #333; }
   </style>
 </head>
@@ -104,13 +53,11 @@
   <div class="container">
     <h1>📦 资源分享</h1>
 
-    <!-- 声明和反馈入口 -->
     <div class="top-links">
       <a id="openDisclaimer">📜 免责声明</a>
       <a id="feedbackLink" href="#">📝 求更&反馈</a>
     </div>
 
-    <!-- 分类按钮 -->
     <div class="category-nav">
       <button class="category-btn active" data-category="全部">全部</button>
       <button class="category-btn" data-category="电影">电影</button>
@@ -119,7 +66,6 @@
       <button class="category-btn" data-category="游戏">游戏</button>
     </div>
 
-    <!-- 搜索框 -->
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="搜索资源名称..." autofocus>
     </div>
@@ -128,7 +74,6 @@
     <div id="noResult" class="no-result">😕 没有找到相关资源</div>
   </div>
 
-  <!-- 弹窗层 -->
   <div id="disclaimerModal" class="modal-overlay">
     <div class="modal-dialog">
       <button class="modal-close">&times;</button>
@@ -143,28 +88,31 @@
     </div>
   </div>
 
-  <div id="toast" class="toast">✅ 链接已复制到剪贴板</div>
+  <div id="toast" class="toast">✅ 链接已复制</div>
 
   <script>
-    // ========== 配置：反馈链接（可修改为表单或其它链接） ==========
-    const FEEDBACK_URL = "mailto:957995@gmail.com?subject=资源反馈&body=请描述你的问题或需求：";
-    // =============================================================
+    // ========== 配置：反馈邮箱（请改成你自己的） ==========
+    const FEEDBACK_URL = "mailto:957995@gamil.com?subject=资源反馈&body=请描述你的问题或需求：";
+    // ==================================================
 
-    // 设置反馈链接
     document.getElementById('feedbackLink').href = FEEDBACK_URL;
 
-    // 弹窗控制
     const modal = document.getElementById('disclaimerModal');
-    const openBtn = document.getElementById('openDisclaimer');
-    const closeBtn = document.querySelector('.modal-close');
+    document.getElementById('openDisclaimer').addEventListener('click', () => modal.classList.add('show'));
+    document.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
 
-    openBtn.addEventListener('click', () => modal.classList.add('show'));
-    closeBtn.addEventListener('click', () => modal.classList.remove('show'));
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('show');
-    });
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
 
-    // ========== 以下为资源加载 & 过滤逻辑（与之前相同） ==========
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1000);
+    }
+
+    // ========== 资源加载与渲染 ==========
     let allResources = [];
     let currentCategory = '全部';
 
@@ -187,19 +135,36 @@
       resources.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = `
-          <div class="card-title">${item.title}</div>
-          <span class="platform-tag">${item.platform || '网盘'}</span>
-          <button class="copy-btn">📋 一键复制链接和提取码</button>
-        `;
-        const copyText = `链接：${item.link}${item.code ? ' 提取码：' + item.code : ''}`;
-        card.querySelector('.copy-btn').addEventListener('click', () => {
-          navigator.clipboard.writeText(copyText).then(() => {
-            const t = document.getElementById('toast');
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 1500);
+        card.innerHTML = `<div class="card-title">${item.title}</div>`;
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'btn-group';
+
+        // 百度网盘按钮（仅当 link 非空时显示）
+        if (item.baidu && item.baidu.link) {
+          const baiduBtn = document.createElement('button');
+          baiduBtn.className = 'copy-btn baidu';
+          baiduBtn.textContent = '📋 复制百度网盘';
+          const baiduText = `链接：${item.baidu.link}${item.baidu.code ? ' 提取码：' + item.baidu.code : ''}`;
+          baiduBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(baiduText).then(() => showToast('✅ 百度网盘链接已复制'));
           });
-        });
+          btnGroup.appendChild(baiduBtn);
+        }
+
+        // 夸克网盘按钮（仅当 link 非空时显示）
+        if (item.kuake && item.kuake.link) {
+          const kuakeBtn = document.createElement('button');
+          kuakeBtn.className = 'copy-btn kuake';
+          kuakeBtn.textContent = '📋 复制夸克网盘';
+          const kuakeText = `链接：${item.kuake.link}${item.kuake.code ? ' 提取码：' + item.kuake.code : ''}`;
+          kuakeBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(kuakeText).then(() => showToast('✅ 夸克网盘链接已复制'));
+          });
+          btnGroup.appendChild(kuakeBtn);
+        }
+
+        card.appendChild(btnGroup);
         list.appendChild(card);
       });
     }
