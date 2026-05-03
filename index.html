@@ -8,7 +8,22 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; color: #333; padding: 30px; }
     .container { max-width: 750px; margin: 0 auto; }
-    h1 { text-align: center; margin-bottom: 20px; font-size: 32px; }
+    h1 { text-align: center; margin-bottom: 10px; font-size: 32px; }
+
+    /* 顶部链接 */
+    .top-links {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+    .top-links a {
+      color: #4f46e5;
+      text-decoration: none;
+      margin: 0 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .top-links a:hover { text-decoration: underline; }
 
     /* 分类导航 */
     .category-nav {
@@ -62,11 +77,38 @@
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 40px; opacity: 0; transition: opacity 0.3s; z-index: 999; }
     .toast.show { opacity: 1; }
+
+    /* 弹窗样式 */
+    .modal-overlay {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.5); display: flex;
+      align-items: center; justify-content: center;
+      z-index: 1000; visibility: hidden; opacity: 0; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal-overlay.show { visibility: visible; opacity: 1; }
+    .modal-dialog {
+      background: white; border-radius: 14px; padding: 30px 24px; max-width: 600px; width: 90%;
+      max-height: 80vh; overflow-y: auto; position: relative;
+    }
+    .modal-dialog h2 { margin-bottom: 20px; font-size: 22px; text-align: center; }
+    .modal-dialog ol { padding-left: 20px; line-height: 1.8; font-size: 15px; color: #555; }
+    .modal-dialog ol li { margin-bottom: 12px; }
+    .modal-close {
+      position: absolute; top: 12px; right: 18px;
+      background: none; border: none; font-size: 24px; cursor: pointer; color: #999;
+    }
+    .modal-close:hover { color: #333; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>📦 资源分享</h1>
+
+    <!-- 声明和反馈入口 -->
+    <div class="top-links">
+      <a id="openDisclaimer">📜 免责声明</a>
+      <a id="feedbackLink" href="#">📝 求更&反馈</a>
+    </div>
 
     <!-- 分类按钮 -->
     <div class="category-nav">
@@ -86,34 +128,61 @@
     <div id="noResult" class="no-result">😕 没有找到相关资源</div>
   </div>
 
+  <!-- 弹窗层 -->
+  <div id="disclaimerModal" class="modal-overlay">
+    <div class="modal-dialog">
+      <button class="modal-close">&times;</button>
+      <h2>📜 免责声明</h2>
+      <ol>
+        <li>本站是一个网盘资源搜索引擎检索库，全站数据以及链接是通过采集程序自动收集于互联网公开分享（数据来源举例：夸克网盘用户公开分享、阿里云盘用户公开分享等等）。</li>
+        <li>本站服务器自身不储存、复制、传播、编辑任何网盘资源文件，服务器更不提供下载服务，仅做网盘链接导向测试，您所转存和下载的文件内容均来自第三方网盘。</li>
+        <li>本站作为公益免费非盈利网站，所有服务仅供个人学习研究自用，并无主动公开意图，所有内容禁止转载传播，本站更无任何收费项目，切勿上当受骗。</li>
+        <li>本站内容为自动采集，对于导向的内容和链接，并无侵权的主观意愿，如导向的网盘链接侵犯到您的权益，您可主动向网盘供应商提交申请，本站也会清理屏蔽相关导向链接，另外本站还定期自我巡查，对存在问题的内容进行删除和屏蔽，由于网盘内用户数据结构复杂，难免有所疏忽。</li>
+        <li>如本站数据侵犯到您的权益，可以如下操作反馈：直接在内容页点击《求更&反馈》，填写需要处理的理由即可。</li>
+      </ol>
+    </div>
+  </div>
+
   <div id="toast" class="toast">✅ 链接已复制到剪贴板</div>
 
   <script>
-    let allResources = [];
-    let currentCategory = '全部';   // 当前选中的分类
+    // ========== 配置：反馈链接（可修改为表单或其它链接） ==========
+    const FEEDBACK_URL = "mailto:957995@gmail.com?subject=资源反馈&body=请描述你的问题或需求：";
+    // =============================================================
 
-    // 加载数据
+    // 设置反馈链接
+    document.getElementById('feedbackLink').href = FEEDBACK_URL;
+
+    // 弹窗控制
+    const modal = document.getElementById('disclaimerModal');
+    const openBtn = document.getElementById('openDisclaimer');
+    const closeBtn = document.querySelector('.modal-close');
+
+    openBtn.addEventListener('click', () => modal.classList.add('show'));
+    closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('show');
+    });
+
+    // ========== 以下为资源加载 & 过滤逻辑（与之前相同） ==========
+    let allResources = [];
+    let currentCategory = '全部';
+
     fetch('data.json')
       .then(res => res.json())
       .then(data => {
         allResources = data;
-        applyFilters();   // 初次加载显示全部
+        applyFilters();
       })
       .catch(() => {
         document.getElementById('list').innerHTML = '<p style="text-align:center;color:#999;">加载失败，请刷新</p>';
       });
 
-    // 渲染列表
     function renderList(resources) {
       const list = document.getElementById('list');
       const noResult = document.getElementById('noResult');
       list.innerHTML = '';
-
-      if (!resources.length) {
-        noResult.style.display = 'block';
-      } else {
-        noResult.style.display = 'none';
-      }
+      noResult.style.display = resources.length ? 'none' : 'block';
 
       resources.forEach(item => {
         const card = document.createElement('div');
@@ -135,39 +204,25 @@
       });
     }
 
-    // 根据分类 + 搜索词过滤
     function applyFilters() {
       const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-      
       let filtered = allResources;
-      
-      // 1. 分类过滤
       if (currentCategory !== '全部') {
         filtered = filtered.filter(item => item.category === currentCategory);
       }
-      
-      // 2. 搜索过滤
       if (keyword) {
         filtered = filtered.filter(item => item.title.toLowerCase().includes(keyword));
       }
-      
       renderList(filtered);
     }
 
-    // 搜索框监听
     document.getElementById('searchInput').addEventListener('input', applyFilters);
 
-    // 分类按钮点击事件
-    const categoryBtns = document.querySelectorAll('.category-btn');
-    categoryBtns.forEach(btn => {
+    document.querySelectorAll('.category-btn').forEach(btn => {
       btn.addEventListener('click', function() {
-        // 移除所有按钮的active样式
-        categoryBtns.forEach(b => b.classList.remove('active'));
-        // 给当前点击的按钮加active样式
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        // 更新当前分类
         currentCategory = this.getAttribute('data-category');
-        // 重新过滤
         applyFilters();
       });
     });
